@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<body>
+    <div class="main">
+        <form action="/new_course" method="post">
+            <h2>Add a new course</h2>
+            {% if messages %}
+            <ul class = "messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class = "{{message.tags}}" {% endif %}>{{message}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}        
+            <div class="name">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" >
+            </div>
+            <div class="description">
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description" value="">    
+            </div>
+            <button class="btn btn-primary">Add</button>
+        </form>
+        <table id = 'list'>
+            <thead>
+                <tr>
+                    <th>Course name</th>
+                    <th>Description</th>
+                    <th>Date added</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{course.name}}</td>
+                    <td>{{course.description}}</td>
+                    <td>{{course.created_at}}</td>
+                    <td> <a href ='/course/{{course.id}}/delete'>Remove</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
