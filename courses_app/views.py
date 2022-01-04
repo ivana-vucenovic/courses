@@ -25,4 +25,36 @@ def new_course(request):
     return redirect("/")
 
 
+def delete(request,id):
+    if request.method == "GET":
+        context = {
+            "course": Course.objects.get(id=id)
+        }
+        return render(request,'delete.html', context)
+
+    if request.method == "POST":
+        course = Course.objects.get(id=id)
+        course.delete()
+        return redirect("/courses")
+
+def comments(request,id):
+    context = {
+        "course": Course.objects.get(id=id)
+    }
+    return render(request,'comments.html', context)
+
+def create_comment(request, id):
+    errors = Comment.objects.validator(request.POST)
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)
+    else:
+        Comment.objects.create(
+            content=request.POST['content'],
+            course = Course.objects.get(id=id)
+        )
+    return redirect(f"/courses/{id}")
+
+
+
 
